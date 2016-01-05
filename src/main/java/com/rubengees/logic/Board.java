@@ -16,15 +16,15 @@ public class Board {
     public Board(boolean[][] aliveMatrix) {
         Objects.requireNonNull(aliveMatrix);
 
-        if (aliveMatrix.length < 3) {
+        if (aliveMatrix.length < 3 || aliveMatrix[0].length < 3) {
             throw new IllegalArgumentException("The matrix must be at least 3 x 3");
         }
 
-        cells = new Cell[aliveMatrix.length][aliveMatrix.length];
+        cells = new Cell[aliveMatrix.length][aliveMatrix[0].length];
 
         for (int i = 0; i < aliveMatrix.length; i++) {
             for (int j = 0; j < aliveMatrix[0].length; j++) {
-                cells[j][i] = new Cell(aliveMatrix[j][i], j, i);
+                cells[i][j] = new Cell(aliveMatrix[i][j], i, j);
             }
         }
     }
@@ -39,7 +39,7 @@ public class Board {
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++) {
-                Cell current = cells[j][i].clone();
+                Cell current = cells[i][j].clone();
                 int aliveNeighbours = calculateAliveNeighbours(current);
 
                 if(aliveNeighbours < 2){
@@ -50,7 +50,7 @@ public class Board {
                     current.setAlive(false);
                 }
 
-                newMatrix[j][i] = current;
+                newMatrix[i][j] = current;
             }
         }
 

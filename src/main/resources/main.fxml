@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="553.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8.0.65"
+      fx:controller="com.rubengees.view.MainController">
+    <children>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Slider fx:id="sliderSizeX" onMouseMoved="#onSizeXChanged"/>
+        <HBox prefHeight="437.0" prefWidth="576.0">
+            <children>
+                <TilePane fx:id="tileContainer" prefHeight="442.0" prefWidth="576.0"/>
+                <Slider fx:id="sliderSizeY" onMouseMoved="#onSizeYChanged" orientation="VERTICAL"/>
+            </children>
+        </HBox>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Button mnemonicParsing="false" onAction="#randomize" text="Button"/>
+                <Slider fx:id="speedSlider" onMouseMoved="#onSpeedChanged" GridPane.columnIndex="1"/>
+                <Button mnemonicParsing="false" onAction="#run" text="Button" GridPane.columnIndex="2"/>
+                <Button mnemonicParsing="false" onAction="#doStep" text="Button" GridPane.columnIndex="3"/>
+            </children>
+        </GridPane>
+    </children>
+</VBox>
