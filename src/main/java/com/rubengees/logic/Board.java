@@ -14,6 +14,10 @@ public class Board {
     private Cell[][] cells;
 
     public Board(boolean[][] aliveMatrix) {
+        setAliveMatrix(aliveMatrix);
+    }
+
+    public void setAliveMatrix(boolean[][] aliveMatrix) {
         Objects.requireNonNull(aliveMatrix);
 
         if (aliveMatrix.length < 3 || aliveMatrix[0].length < 3) {
