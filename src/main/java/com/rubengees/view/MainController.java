@@ -1,16 +1,13 @@
 package com.rubengees.view;
 
 import com.rubengees.logic.Board;
-import com.rubengees.logic.Cell;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -30,7 +27,7 @@ public class MainController implements Initializable {
     private static final Paint GREY = Paint.valueOf("grey");
 
     @FXML
-    TilePane tileContainer;
+    Pane tileContainer;
     @FXML
     Slider sliderSizeX;
     @FXML
@@ -62,20 +59,6 @@ public class MainController implements Initializable {
 
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 
-        });
-
-        tileContainer.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                //draw();
-            }
-        });
-
-        tileContainer.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                //draw();
-            }
         });
 
         draw();
@@ -123,35 +106,37 @@ public class MainController implements Initializable {
     }
 
     private void draw() {
-        Cell[][] cells = board.getCells();
         int rows = getRows();
         int columns = getColumns();
 
         tileContainer.getChildren().clear();
-        tileContainer.setPrefRows(rows);
-        tileContainer.setPrefColumns(columns);
 
-        //Start to iterate from the columns, as the Tilepain populate itself also from the columns first
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                Rectangle rectangle = new Rectangle(400 / columns, 400 / rows,
-                        cells[j][i].isAlive() ? WHITE : BLACK);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+
+                Rectangle rectangle = new Rectangle();
                 final int finalI = i;
                 final int finalJ = j;
 
                 rectangle.setArcHeight(15);
                 rectangle.setArcWidth(15);
 
+                rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK);
+
                 rectangle.setOnMouseClicked(event -> {
-                    board.invertCell(finalJ, finalI);
-                    rectangle.setFill(board.getCell(finalJ, finalI).isAlive() ? WHITE : BLACK);
+                    board.invertCell(finalI, finalJ);
+                    rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK);
                 });
 
                 rectangle.setOnMouseEntered(event -> rectangle.setFill(GREY));
 
                 rectangle.setOnMouseExited(event ->
-                        rectangle.setFill(board.getCell(finalJ, finalI).isAlive() ? WHITE : BLACK));
+                        rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK));
 
+                rectangle.xProperty().bind(tileContainer.heightProperty().divide(rows).multiply(i));
+                rectangle.yProperty().bind(tileContainer.heightProperty().divide(columns).multiply(j));
+                rectangle.heightProperty().bind(tileContainer.heightProperty().divide(rows));
+                rectangle.widthProperty().bind(tileContainer.widthProperty().divide(columns));
                 tileContainer.getChildren().add(rectangle);
             }
         }

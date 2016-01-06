@@ -41,8 +41,6 @@
                         <Insets bottom="20.0"/>
                     </GridPane.margin>
                 </Slider>
-                <TilePane fx:id="tileContainer" orientation="VERTICAL" prefHeight="400.0" prefWidth="400.0"
-                          GridPane.rowIndex="1"/>
                 <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
                         orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0"
                         GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER"
@@ -51,6 +49,7 @@
                         <Insets left="20.0"/>
                     </GridPane.margin>
                 </Slider>
+                <Pane fx:id="tileContainer" prefHeight="400.0" prefWidth="400.0" GridPane.rowIndex="1"/>
             </children>
             <VBox.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
