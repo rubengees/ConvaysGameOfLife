@@ -2,18 +2,23 @@ package com.rubengees.view;
 
 import com.rubengees.logic.Board;
 import com.rubengees.logic.Cell;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * TODO: Describe Class
@@ -22,7 +27,7 @@ import java.util.ResourceBundle;
  */
 public class MainController implements Initializable {
 
-    private static final Paint BlACK = Paint.valueOf("black");
+    private static final Paint BLACK = Paint.valueOf("black");
     private static final Paint WHITE = Paint.valueOf("white");
 
     @FXML
@@ -33,57 +38,80 @@ public class MainController implements Initializable {
     Slider sliderSizeY;
     @FXML
     Slider speedSlider;
+    @FXML
+    Button runButton;
 
     private Board board;
+
+    private CycleThread cycleThread = new CycleThread();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         board = new Board(generateEmptyMatrix());
 
-        sliderSizeX.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-                                Number newValue) {
-                board.setAliveMatrix(generateEmptyMatrix());
+        sliderSizeX.valueProperty().addListener((observable, oldValue, newValue) -> {
+            board.setAliveMatrix(generateEmptyMatrix());
 
-                draw();
-            }
+            draw();
         });
 
-        sliderSizeY.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-                                Number newValue) {
-                board.setAliveMatrix(generateEmptyMatrix());
+        sliderSizeY.valueProperty().addListener((observable, oldValue, newValue) -> {
+            board.setAliveMatrix(generateEmptyMatrix());
 
-                draw();
-            }
+            draw();
         });
 
-        speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-                                Number newValue) {
+        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 
-            }
         });
-
-        tileContainer.setHgap(3);
-        tileContainer.setVgap(3);
 
         draw();
     }
 
     public void randomize(ActionEvent actionEvent) {
+        Random random = new Random();
+        int rows = getRows();
+        int columns = getColumns();
+        boolean[][] aliveMatrix = new boolean[rows][columns];
 
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                aliveMatrix[i][j] = random.nextInt(2) == 1;
+            }
+        }
+
+        board.setAliveMatrix(aliveMatrix);
+
+        draw();
     }
 
     public void run(ActionEvent actionEvent) {
+        Future future = Executors.newFixedThreadPool(1).submit(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
+
+        if (cycleThread.isCancelled()) {
+            cycleThread.start();
+
+            runButton.setText("Stop");
+        } else {
+            cycleThread.cancel();
+
+            runButton.setText("Run");
+        }
+    }
+
+    private long getInterval() {
+        return (long) speedSlider.getValue();
     }
 
     public void doStep(ActionEvent actionEvent) {
+        board.calculateCycle();
 
+        draw();
     }
 
     private void draw() {
@@ -95,14 +123,30 @@ public class MainController implements Initializable {
         tileContainer.setPrefColumns(getColumns());
         tileContainer.setPrefRows(getRows());
 
+        List<Rectangle> rectangles = new ArrayList<>(rows * columns);
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                Rectangle rectangle = new Rectangle(400 / rows - 3 * (rows - 1), 400 / columns - 3 * (columns - 1),
-                        cells[i][j].isAlive() ? WHITE : BlACK);
+                final int x = i;
+                final int y = j;
 
-                tileContainer.getChildren().add(rectangle);
+                Rectangle rectangle = new Rectangle(400 / rows, 400 / columns,
+                        cells[x][y].isAlive() ? WHITE : BLACK);
+
+                rectangle.setArcHeight(15);
+                rectangle.setArcWidth(15);
+
+                rectangle.setOnMouseClicked(event -> {
+                    board.invertCell(x, y);
+
+                    rectangle.setFill(board.getCell(x, y).isAlive() ? WHITE : BLACK);
+                });
+
+                rectangles.add(rectangle);
             }
         }
+
+        tileContainer.getChildren().addAll(rectangles);
     }
 
     private boolean[][] generateEmptyMatrix() {
@@ -125,5 +169,33 @@ public class MainController implements Initializable {
 
     private int getRows() {
         return (int) sliderSizeX.valueProperty().get();
+    }
+
+    private class CycleThread extends Thread {
+
+        private volatile boolean cancelled = false;
+
+        @Override
+        public void run() {
+            while (!cancelled) {
+                board.calculateCycle();
+
+                Platform.runLater(MainController.this::draw);
+
+                try {
+                    Thread.sleep(getInterval());
+                } catch (InterruptedException ignored) {
+
+                }
+            }
+        }
+
+        public void cancel() {
+            cancelled = true;
+        }
+
+        public boolean isCancelled() {
+            return cancelled;
+        }
     }
 }

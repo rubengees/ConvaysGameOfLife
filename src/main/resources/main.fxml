@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" xmlns="http://javafx.com/javafx/null"
       fx:controller="com.rubengees.view.MainController">
     <children>
         <MenuBar>
@@ -38,12 +36,13 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="10.0" min="3.0" showTickLabels="true"/>
+                <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
+                        showTickLabels="true" snapToTicks="true"/>
                 <TilePane fx:id="tileContainer" prefHeight="400.0" prefWidth="400.0" GridPane.hgrow="NEVER"
                           GridPane.rowIndex="1" GridPane.vgrow="NEVER"/>
-                <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="10.0" min="3.0" orientation="VERTICAL"
-                        showTickLabels="true" value="3.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
-                        GridPane.rowIndex="1">
+                <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
+                        orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0"
+                        GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets left="20.0"/>
                     </GridPane.margin>
@@ -65,8 +64,10 @@
             </rowConstraints>
             <children>
                 <Button mnemonicParsing="false" onAction="#randomize" text="Random" GridPane.halignment="LEFT"/>
-                <Slider fx:id="speedSlider" GridPane.columnIndex="1"/>
-                <Button mnemonicParsing="false" onAction="#run" text="Run" GridPane.columnIndex="2"/>
+                <Slider fx:id="speedSlider" blockIncrement="50.0" majorTickUnit="50.0" max="1000.0" min="50.0"
+                        minorTickCount="1" nodeOrientation="RIGHT_TO_LEFT" showTickMarks="true" snapToTicks="true"
+                        value="800.0" GridPane.columnIndex="1"/>
+                <Button fx:id="runButton" mnemonicParsing="false" onAction="#run" text="Run" GridPane.columnIndex="2"/>
                 <Button mnemonicParsing="false" onAction="#doStep" text="Step" GridPane.columnIndex="3"/>
             </children>
             <VBox.margin>

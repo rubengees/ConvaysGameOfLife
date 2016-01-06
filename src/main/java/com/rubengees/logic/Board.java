@@ -95,8 +95,8 @@ public class Board {
                 }
 
                 if(j < 0){
-                    y = cells.length - 1;
-                }else if(j >= cells.length){
+                    y = cells[0].length - 1;
+                } else if (j >= cells[0].length) {
                     y = 0;
                 }else{
                     y = j;
@@ -107,5 +107,13 @@ public class Board {
         }
 
         return result;
+    }
+
+    public Cell getCell(int x, int y) {
+        return cells[x][y].clone();
+    }
+
+    public void invertCell(int x, int y) {
+        cells[x][y].setAlive(!cells[x][y].isAlive());
     }
 }
