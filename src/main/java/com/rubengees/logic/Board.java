@@ -50,11 +50,11 @@ public class Board {
                 Cell current = cells[i][j].clone();
                 int aliveNeighbours = calculateAliveNeighbours(current);
 
-                if(aliveNeighbours < 2){
+                if (aliveNeighbours < 2) {
                     current.setAlive(false);
-                }else if(aliveNeighbours == 3){
+                } else if (aliveNeighbours == 3) {
                     current.setAlive(true);
-                }else if(aliveNeighbours > 3){
+                } else if (aliveNeighbours > 3) {
                     current.setAlive(false);
                 }
 
@@ -69,7 +69,7 @@ public class Board {
         int result = 0;
 
         for (Cell neighbour : findNeighbours(cell)) {
-            if(neighbour.isAlive()){
+            if (neighbour.isAlive()) {
                 result++;
             }
         }
@@ -85,26 +85,26 @@ public class Board {
         for (int i = cell.getX() - 1; i <= cell.getX() + 1; i++) {
             for (int j = cell.getY() - 1; j <= cell.getY() + 1; j++) {
                 //Our cell which is no neighbour
-                if(i == cell.getX() && j == cell.getY()){
+                if (i == cell.getX() && j == cell.getY()) {
                     continue;
                 }
 
                 int x;
                 int y;
 
-                if(i < 0){
+                if (i < 0) {
                     x = rows - 1;
                 } else if (i >= rows) {
                     x = 0;
-                }else{
+                } else {
                     x = i;
                 }
 
-                if(j < 0){
+                if (j < 0) {
                     y = columns - 1;
                 } else if (j >= columns) {
                     y = 0;
-                }else{
+                } else {
                     y = j;
                 }
 
@@ -120,6 +120,6 @@ public class Board {
     }
 
     public synchronized void invertCell(int x, int y) {
-        getCell(x, y).setAlive(!getCell(x, y).isAlive());
+        cells[x][y].setAlive(!cells[x][y].isAlive());
     }
 }

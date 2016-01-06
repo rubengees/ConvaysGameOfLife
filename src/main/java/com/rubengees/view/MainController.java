@@ -11,6 +11,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -113,25 +114,28 @@ public class MainController implements Initializable {
         int columns = getColumns();
 
         tileContainer.getChildren().clear();
-        tileContainer.setPrefColumns(getColumns());
-        tileContainer.setPrefRows(getRows());
+        tileContainer.setPrefRows(rows);
+        tileContainer.setPrefColumns(columns);
 
         List<Rectangle> rectangles = new ArrayList<>(rows * columns);
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                final int x = i;
-                final int y = j;
-
+        //Start to iterate from the columns, as the Tilepain populate itself also from the columns first
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
                 Rectangle rectangle = new Rectangle(400 / rows, 400 / columns,
-                        cells[x][y].isAlive() ? WHITE : BLACK);
+                        cells[j][i].isAlive() ? WHITE : BLACK);
 
                 rectangle.setArcHeight(15);
                 rectangle.setArcWidth(15);
 
-                rectangle.setOnMouseClicked(event -> {
-                    board.invertCell(x, y);
+                rectangle.setUserData(new Pair<>(j, i));
 
+                rectangle.setOnMouseClicked(event -> {
+                    Pair position = (Pair) ((Rectangle) event.getSource()).getUserData();
+                    int x = (int) position.getKey();
+                    int y = (int) position.getValue();
+
+                    board.invertCell(x, y);
                     rectangle.setFill(board.getCell(x, y).isAlive() ? WHITE : BLACK);
                 });
 
@@ -139,7 +143,7 @@ public class MainController implements Initializable {
             }
         }
 
-        tileContainer.getChildren().addAll(rectangles);
+        tileContainer.getChildren().setAll(rectangles);
     }
 
     private boolean[][] generateEmptyMatrix() {
