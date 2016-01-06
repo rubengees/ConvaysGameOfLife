@@ -17,32 +17,36 @@ public class Board {
         setAliveMatrix(aliveMatrix);
     }
 
-    public void setAliveMatrix(boolean[][] aliveMatrix) {
+    public synchronized void setAliveMatrix(boolean[][] aliveMatrix) {
         Objects.requireNonNull(aliveMatrix);
+        int rows = aliveMatrix.length;
+        int columns = aliveMatrix[0].length;
 
-        if (aliveMatrix.length < 3 || aliveMatrix[0].length < 3) {
+        if (rows < 3 || columns < 3) {
             throw new IllegalArgumentException("The matrix must be at least 3 x 3");
         }
 
-        cells = new Cell[aliveMatrix.length][aliveMatrix[0].length];
+        cells = new Cell[rows][columns];
 
-        for (int i = 0; i < aliveMatrix.length; i++) {
-            for (int j = 0; j < aliveMatrix[0].length; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 cells[i][j] = new Cell(aliveMatrix[i][j], i, j);
             }
         }
     }
 
-    public Cell[][] getCells() {
+    public synchronized Cell[][] getCells() {
         //Return a copy of the internal matrix to achieve immutability
         return Utils.cloneMatrix(cells);
     }
 
-    public void calculateCycle() {
-        Cell[][] newMatrix = new Cell[cells.length][cells[0].length];
+    public synchronized void calculateCycle() {
+        int rows = cells.length;
+        int columns = cells[0].length;
+        Cell[][] newMatrix = new Cell[rows][columns];
 
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[0].length; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 Cell current = cells[i][j].clone();
                 int aliveNeighbours = calculateAliveNeighbours(current);
 
@@ -75,6 +79,8 @@ public class Board {
 
     private List<Cell> findNeighbours(Cell cell) {
         List<Cell> result = new ArrayList<>(8);
+        int rows = cells.length;
+        int columns = cells[0].length;
 
         for (int i = cell.getX() - 1; i <= cell.getX() + 1; i++) {
             for (int j = cell.getY() - 1; j <= cell.getY() + 1; j++) {
@@ -87,16 +93,16 @@ public class Board {
                 int y;
 
                 if(i < 0){
-                    x = cells.length - 1;
-                }else if(i >= cells.length){
+                    x = rows - 1;
+                } else if (i >= rows) {
                     x = 0;
                 }else{
                     x = i;
                 }
 
                 if(j < 0){
-                    y = cells[0].length - 1;
-                } else if (j >= cells[0].length) {
+                    y = columns - 1;
+                } else if (j >= columns) {
                     y = 0;
                 }else{
                     y = j;
@@ -109,11 +115,11 @@ public class Board {
         return result;
     }
 
-    public Cell getCell(int x, int y) {
+    public synchronized Cell getCell(int x, int y) {
         return cells[x][y].clone();
     }
 
-    public void invertCell(int x, int y) {
-        cells[x][y].setAlive(!cells[x][y].isAlive());
+    public synchronized void invertCell(int x, int y) {
+        getCell(x, y).setAlive(!getCell(x, y).isAlive());
     }
 }

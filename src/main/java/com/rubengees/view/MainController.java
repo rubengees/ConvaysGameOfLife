@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * TODO: Describe Class
@@ -43,7 +41,7 @@ public class MainController implements Initializable {
 
     private Board board;
 
-    private CycleThread cycleThread = new CycleThread();
+    private CycleThread cycleThread;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -86,19 +84,14 @@ public class MainController implements Initializable {
     }
 
     public void run(ActionEvent actionEvent) {
-        Future future = Executors.newFixedThreadPool(1).submit(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-
-        if (cycleThread.isCancelled()) {
+        if (cycleThread == null) {
+            cycleThread = new CycleThread();
             cycleThread.start();
 
             runButton.setText("Stop");
         } else {
             cycleThread.cancel();
+            cycleThread = null;
 
             runButton.setText("Run");
         }
@@ -172,7 +165,6 @@ public class MainController implements Initializable {
     }
 
     private class CycleThread extends Thread {
-
         private volatile boolean cancelled = false;
 
         @Override
