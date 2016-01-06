@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" xmlns="http://javafx.com/javafx/null"
-      fx:controller="com.rubengees.view.MainController">
+      minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="com.rubengees.view.MainController">
     <children>
         <MenuBar>
             <menus>
@@ -26,23 +25,28 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <GridPane>
+        <GridPane VBox.vgrow="ALWAYS">
             <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
                 <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+                <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
             </rowConstraints>
             <children>
                 <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
-                        showTickLabels="true" snapToTicks="true"/>
-                <TilePane fx:id="tileContainer" prefHeight="400.0" prefWidth="400.0" GridPane.hgrow="NEVER"
-                          GridPane.rowIndex="1" GridPane.vgrow="NEVER"/>
+                        showTickLabels="true" snapToTicks="true">
+                    <GridPane.margin>
+                        <Insets bottom="20.0"/>
+                    </GridPane.margin>
+                </Slider>
+                <TilePane fx:id="tileContainer" orientation="VERTICAL" prefHeight="400.0" prefWidth="400.0"
+                          GridPane.rowIndex="1"/>
                 <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
                         orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0"
-                        GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                        GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER"
+                        GridPane.rowIndex="1" GridPane.vgrow="NEVER">
                     <GridPane.margin>
                         <Insets left="20.0"/>
                     </GridPane.margin>
@@ -52,7 +56,7 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </VBox.margin>
         </GridPane>
-        <GridPane>
+        <GridPane VBox.vgrow="NEVER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
@@ -60,7 +64,7 @@
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
             </rowConstraints>
             <children>
                 <Button mnemonicParsing="false" onAction="#randomize" text="Random" GridPane.halignment="LEFT"/>

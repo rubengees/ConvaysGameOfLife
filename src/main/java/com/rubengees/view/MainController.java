@@ -3,6 +3,8 @@ package com.rubengees.view;
 import com.rubengees.logic.Board;
 import com.rubengees.logic.Cell;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,13 +13,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Pair;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.SplittableRandom;
 
 /**
  * TODO: Describe Class
@@ -28,6 +27,7 @@ public class MainController implements Initializable {
 
     private static final Paint BLACK = Paint.valueOf("black");
     private static final Paint WHITE = Paint.valueOf("white");
+    private static final Paint GREY = Paint.valueOf("grey");
 
     @FXML
     TilePane tileContainer;
@@ -64,18 +64,32 @@ public class MainController implements Initializable {
 
         });
 
+        tileContainer.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                //draw();
+            }
+        });
+
+        tileContainer.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                //draw();
+            }
+        });
+
         draw();
     }
 
     public void randomize(ActionEvent actionEvent) {
-        Random random = new Random();
+        SplittableRandom random = new SplittableRandom();
         int rows = getRows();
         int columns = getColumns();
         boolean[][] aliveMatrix = new boolean[rows][columns];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                aliveMatrix[i][j] = random.nextInt(2) == 1;
+                aliveMatrix[i][j] = random.nextInt() >= 0;
             }
         }
 
@@ -117,47 +131,34 @@ public class MainController implements Initializable {
         tileContainer.setPrefRows(rows);
         tileContainer.setPrefColumns(columns);
 
-        List<Rectangle> rectangles = new ArrayList<>(rows * columns);
-
         //Start to iterate from the columns, as the Tilepain populate itself also from the columns first
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                Rectangle rectangle = new Rectangle(400 / rows, 400 / columns,
+                Rectangle rectangle = new Rectangle(400 / columns, 400 / rows,
                         cells[j][i].isAlive() ? WHITE : BLACK);
+                final int finalI = i;
+                final int finalJ = j;
 
                 rectangle.setArcHeight(15);
                 rectangle.setArcWidth(15);
 
-                rectangle.setUserData(new Pair<>(j, i));
-
                 rectangle.setOnMouseClicked(event -> {
-                    Pair position = (Pair) ((Rectangle) event.getSource()).getUserData();
-                    int x = (int) position.getKey();
-                    int y = (int) position.getValue();
-
-                    board.invertCell(x, y);
-                    rectangle.setFill(board.getCell(x, y).isAlive() ? WHITE : BLACK);
+                    board.invertCell(finalJ, finalI);
+                    rectangle.setFill(board.getCell(finalJ, finalI).isAlive() ? WHITE : BLACK);
                 });
 
-                rectangles.add(rectangle);
+                rectangle.setOnMouseEntered(event -> rectangle.setFill(GREY));
+
+                rectangle.setOnMouseExited(event ->
+                        rectangle.setFill(board.getCell(finalJ, finalI).isAlive() ? WHITE : BLACK));
+
+                tileContainer.getChildren().add(rectangle);
             }
         }
-
-        tileContainer.getChildren().setAll(rectangles);
     }
 
     private boolean[][] generateEmptyMatrix() {
-        int rows = getRows();
-        int columns = getColumns();
-        boolean[][] result = new boolean[rows][columns];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                result[i][j] = false;
-            }
-        }
-
-        return result;
+        return new boolean[getRows()][getColumns()];
     }
 
     private int getColumns() {
@@ -176,6 +177,7 @@ public class MainController implements Initializable {
             while (!cancelled) {
                 board.calculateCycle();
 
+                //Run on the JavaFx thread
                 Platform.runLater(MainController.this::draw);
 
                 try {
