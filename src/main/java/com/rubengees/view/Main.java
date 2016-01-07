@@ -22,7 +22,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main.fxml"));
-        primaryStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+
+        primaryStage.setScene(scene);
+        primaryStage.setMinWidth(500);
+        primaryStage.setMinHeight(600);
         primaryStage.show();
     }
 
