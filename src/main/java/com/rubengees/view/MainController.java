@@ -133,10 +133,10 @@ public class MainController implements Initializable {
                 rectangle.setOnMouseExited(event ->
                         rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK));
 
-                rectangle.xProperty().bind(tileContainer.heightProperty().divide(rows).multiply(i));
+                rectangle.xProperty().bind(tileContainer.widthProperty().divide(rows).multiply(i));
                 rectangle.yProperty().bind(tileContainer.heightProperty().divide(columns).multiply(j));
-                rectangle.heightProperty().bind(tileContainer.heightProperty().divide(rows));
-                rectangle.widthProperty().bind(tileContainer.widthProperty().divide(columns));
+                rectangle.heightProperty().bind(tileContainer.heightProperty().divide(columns));
+                rectangle.widthProperty().bind(tileContainer.widthProperty().divide(rows));
                 tileContainer.getChildren().add(rectangle);
             }
         }
