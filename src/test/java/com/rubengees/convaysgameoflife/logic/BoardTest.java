@@ -1,7 +1,5 @@
-package com.rubengees.logic;
+package com.rubengees.convaysgameoflife.logic;
 
-import com.rubengees.convaysgameoflife.logic.Board;
-import com.rubengees.convaysgameoflife.logic.Cell;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
