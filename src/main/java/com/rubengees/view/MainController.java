@@ -95,14 +95,20 @@ public class MainController implements Initializable {
         }
     }
 
-    private long getInterval() {
-        return (long) speedSlider.getValue();
-    }
-
     public void doStep(ActionEvent actionEvent) {
         board.calculateCycle();
 
         draw();
+    }
+
+    public void reset(ActionEvent actionEvent) {
+        board.setAliveMatrix(generateEmptyMatrix());
+
+        draw();
+    }
+
+    public void close(ActionEvent actionEvent) {
+        System.exit(0);
     }
 
     private void draw() {
@@ -152,6 +158,10 @@ public class MainController implements Initializable {
 
     private int getRows() {
         return (int) sliderSizeX.valueProperty().get();
+    }
+
+    private long getInterval() {
+        return (long) speedSlider.getValue();
     }
 
     private class CycleThread extends Thread {
