@@ -1,24 +1,42 @@
-package com.rubengees.logic;
+package com.rubengees.convaysgameoflife.logic;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * TODO: Describe Class
+ * Class responsible for holding the cells and calculating each cycle.
  *
  * @author Ruben Gees
  */
 public class Board {
 
+    /**
+     * The internal representation of the board.
+     */
     private Cell[][] cells;
 
+    /**
+     * The constructor.
+     *
+     * @param aliveMatrix The initial matrix, representing the size of the board and the state of each cell.
+     */
     public Board(boolean[][] aliveMatrix) {
         setAliveMatrix(aliveMatrix);
     }
 
-    public synchronized void setAliveMatrix(boolean[][] aliveMatrix) {
+    /**
+     * Sets a new cell matrix, replacing the old one.
+     *
+     * @param aliveMatrix An array of booleans representing the state of the cells and the size of the board.
+     * @throws IllegalArgumentException If the matrix is smaller than 3 x 3, which is required to make the application
+     *                                  work properly.
+     */
+    public synchronized void setAliveMatrix(@NotNull boolean[][] aliveMatrix) throws IllegalArgumentException {
         Objects.requireNonNull(aliveMatrix);
+
         int rows = aliveMatrix.length;
         int columns = aliveMatrix[0].length;
 
@@ -35,6 +53,12 @@ public class Board {
         }
     }
 
+    /**
+     * Returns a copy of the internal cell matrix to be used when drawing.
+     *
+     * @return The matrix of the cells.
+     */
+    @NotNull
     public synchronized Cell[][] getCells() {
         //Return a copy of the internal matrix to achieve immutability
         return Utils.cloneMatrix(cells);
@@ -65,6 +89,12 @@ public class Board {
         cells = newMatrix;
     }
 
+    /**
+     * Calculates the amount of living neighbours of a single cell. This also takes the borders of the board in account.
+     *
+     * @param cell The cell to calculate from.
+     * @return The amount of alive neighbours.
+     */
     private int calculateAliveNeighbours(Cell cell) {
         int result = 0;
 
@@ -77,7 +107,15 @@ public class Board {
         return result;
     }
 
-    private List<Cell> findNeighbours(Cell cell) {
+    /**
+     * Returns the neighbours of a single cell, taking the borders of the board in account.
+     *
+     * @param cell The cell to find the neighbours from.
+     * @return A List of the neighbours. The size is always 8.
+     */
+    private List<Cell> findNeighbours(@NotNull Cell cell) {
+        Objects.requireNonNull(cell);
+
         List<Cell> result = new ArrayList<>(8);
         int rows = cells.length;
         int columns = cells[0].length;
@@ -115,11 +153,38 @@ public class Board {
         return result;
     }
 
-    public synchronized Cell getCell(int x, int y) {
+    /**
+     * Returns a copy of the cell at the given position.
+     *
+     * @param x The position on the x-axis.
+     * @param y The position on the y-axis.
+     * @return The cell.
+     * @throws IllegalArgumentException If the x or y parameter is out of bounds,
+     *                                  e.g. it's larger than the boards total size or lower than 0.
+     */
+    @NotNull
+    public synchronized Cell getCell(int x, int y) throws IllegalArgumentException {
+        if (x < 0 || y < 0 || x >= cells.length || y >= cells[0].length) {
+            throw new IllegalArgumentException("The position is out of bounds");
+        }
+
+        //Clone the cell to grant immutability
         return cells[x][y].clone();
     }
 
-    public synchronized void invertCell(int x, int y) {
+    /**
+     * Inverts the cell at the given position. Making a dead cell alive and a living cell dead.
+     *
+     * @param x The position on the x-axis.
+     * @param y The position on the y-axis.
+     * @throws IllegalArgumentException If the x or y parameter is out of bounds,
+     *                                  e.g. it's larger than the boards total size or lower than 0.
+     */
+    public synchronized void invertCell(int x, int y) throws IllegalArgumentException {
+        if (x < 0 || y < 0 || x >= cells.length || y >= cells[0].length) {
+            throw new IllegalArgumentException("The position is out of bounds");
+        }
+
         cells[x][y].setAlive(!cells[x][y].isAlive());
     }
 }

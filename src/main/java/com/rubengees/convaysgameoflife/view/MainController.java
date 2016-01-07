@@ -1,6 +1,6 @@
-package com.rubengees.view;
+package com.rubengees.convaysgameoflife.view;
 
-import com.rubengees.logic.Board;
+import com.rubengees.convaysgameoflife.logic.Board;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,7 +1,7 @@
-package com.rubengees.logic;
+package com.rubengees.convaysgameoflife.logic;
 
 /**
- * TODO: Describe Class
+ * Class, holding the information of a single cell.
  *
  * @author Ruben Gees
  */
@@ -11,26 +11,53 @@ public class Cell implements Cloneable {
     private int x;
     private int y;
 
+    /**
+     * The constructor.
+     *
+     * @param alive True if the cell si alive, false otherwise
+     * @param x     The position on the x-axis.
+     * @param y     The position on the y-axis.
+     */
     public Cell(boolean alive, int x, int y) {
         this.alive = alive;
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Returns if the cell is alive.
+     *
+     * @return True, if the cell is alive, false otherwise.
+     */
     public boolean isAlive() {
         return alive;
     }
 
+    /**
+     * Returns if the cell is alive.
+     *
+     * @param alive True, if the cell is alive, false otherwise.
+     */
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    /**
+     * Returns the position on the x-axis.
+     *
+     * @return The position.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Returns the position on the y-axis.
+     *
+     * @return The position.
+     */
     public int getY() {
         return y;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     @Override
@@ -52,15 +79,6 @@ public class Cell implements Cloneable {
         result = 31 * result + x;
         result = 31 * result + y;
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "alive=" + alive +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
     }
 
     @Override

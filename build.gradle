@@ -5,12 +5,19 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
-mainClassName = 'com.rubengees.view.Main'
+mainClassName = 'com.rubengees.convaysgameoflife.view.Main'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    compile 'org.jetbrains:annotations:15.0'
     testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
