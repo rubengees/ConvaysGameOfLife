@@ -19,13 +19,16 @@ import java.net.URL;
  */
 public class Main extends Application {
 
+    public static final String ERROR_RESOURCE_NOT_FOUND = "A needed resource was not found.";
+    private static final String LAYOUT = "main.fxml";
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        URL resource = Utils.getResource(getClass(), "main.fxml");
+        URL resource = Utils.getResource(getClass(), LAYOUT);
 
         if (resource != null) {
             Parent root = FXMLLoader.load(resource);
@@ -39,7 +42,7 @@ public class Main extends Application {
 
             primaryStage.show();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "A needed resource was not found.", ButtonType.CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ERROR_RESOURCE_NOT_FOUND, ButtonType.CLOSE);
 
             alert.showAndWait();
         }

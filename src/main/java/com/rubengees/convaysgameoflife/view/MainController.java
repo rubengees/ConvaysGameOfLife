@@ -25,6 +25,8 @@ public class MainController implements Initializable {
     private static final Paint BLACK = Paint.valueOf("black");
     private static final Paint WHITE = Paint.valueOf("white");
     private static final Paint GREY = Paint.valueOf("grey");
+    private static final String BUTTON_STOP = "Stopp";
+    private static final String BUTTON_RUN = "Start";
 
     @FXML
     Pane tileContainer;
@@ -97,12 +99,12 @@ public class MainController implements Initializable {
             cycleThread = new CycleThread();
             cycleThread.start();
 
-            runButton.setText("Stopp");
+            runButton.setText(BUTTON_STOP);
         } else {
             cycleThread.cancel();
             cycleThread = null;
 
-            runButton.setText("Start");
+            runButton.setText(BUTTON_RUN);
         }
     }
 
