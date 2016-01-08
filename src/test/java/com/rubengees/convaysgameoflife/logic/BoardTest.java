@@ -95,6 +95,47 @@ public class BoardTest {
     }
 
     @Test
+    public void testCalculateCycleNonSquare() throws Exception {
+        boolean[][] aliveMatrix = new boolean[3][4];
+
+        aliveMatrix[0][0] = false;
+        aliveMatrix[0][1] = false;
+        aliveMatrix[0][2] = false;
+        aliveMatrix[0][3] = false;
+        aliveMatrix[1][0] = false;
+        aliveMatrix[1][1] = true;
+        aliveMatrix[1][2] = true;
+        aliveMatrix[1][3] = true;
+        aliveMatrix[2][0] = false;
+        aliveMatrix[2][1] = false;
+        aliveMatrix[2][2] = false;
+        aliveMatrix[2][3] = false;
+
+        board = new Board(aliveMatrix);
+
+        board.calculateCycle();
+
+        Cell[][] cells = board.getCells();
+        Cell[][] expected = new Cell[3][4];
+
+        expected[0][0] = new Cell(false, 0, 0);
+        expected[0][1] = new Cell(false, 0, 1);
+        expected[0][2] = new Cell(true, 0, 2);
+        expected[0][3] = new Cell(false, 0, 3);
+        expected[1][0] = new Cell(false, 1, 0);
+        expected[1][1] = new Cell(false, 1, 1);
+        expected[1][2] = new Cell(true, 1, 2);
+        expected[1][3] = new Cell(false, 1, 3);
+        expected[2][0] = new Cell(false, 2, 0);
+        expected[2][1] = new Cell(false, 2, 1);
+        expected[2][2] = new Cell(true, 2, 2);
+        expected[2][3] = new Cell(false, 2, 3);
+
+        Assert.assertNotNull(cells);
+        Assert.assertTrue(Arrays.deepEquals(cells, expected));
+    }
+
+    @Test
     public void testGetCells() throws Exception {
         Cell[][] cells = board.getCells();
         Cell[][] expected = new Cell[5][5];

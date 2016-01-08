@@ -17,7 +17,7 @@ public class Utils {
      * Clones a matrix of cells for immutability purposes.
      *
      * @param src The matrix to clone.
-     * @return A clone of the fiven matrix.
+     * @return A clone of the given matrix.
      */
     @NotNull
     public static Cell[][] cloneMatrix(@NotNull Cell[][] src) {
