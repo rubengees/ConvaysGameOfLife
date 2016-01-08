@@ -97,12 +97,12 @@ public class MainController implements Initializable {
             cycleThread = new CycleThread();
             cycleThread.start();
 
-            runButton.setText("Stop");
+            runButton.setText("Stopp");
         } else {
             cycleThread.cancel();
             cycleThread = null;
 
-            runButton.setText("Run");
+            runButton.setText("Start");
         }
     }
 

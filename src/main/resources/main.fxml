@@ -1,77 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-      xmlns="http://javafx.com/javafx/null" fx:controller="com.rubengees.convaysgameoflife.view.MainController">
-    <children>
-        <MenuBar>
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#reset" text="Reset"/>
-                        <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <GridPane VBox.vgrow="ALWAYS">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
-                <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="NEVER"/>
-                <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
-            </rowConstraints>
-            <children>
-                <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
-                        showTickLabels="true" snapToTicks="true">
-                    <GridPane.margin>
-                        <Insets bottom="20.0"/>
-                    </GridPane.margin>
-                </Slider>
-                <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0"
-                        orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0"
-                        GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER"
-                        GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-                    <GridPane.margin>
-                        <Insets left="20.0"/>
-                    </GridPane.margin>
-                </Slider>
-                <Pane fx:id="tileContainer" prefHeight="400.0" prefWidth="400.0" GridPane.rowIndex="1"/>
-            </children>
-            <VBox.margin>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-            </VBox.margin>
-        </GridPane>
-        <GridPane VBox.vgrow="NEVER">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0"/>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-            </rowConstraints>
-            <children>
-                <Button mnemonicParsing="false" onAction="#randomize" text="Random" GridPane.halignment="LEFT"/>
-                <Slider fx:id="speedSlider" blockIncrement="50.0" majorTickUnit="50.0" max="1000.0" min="50.0"
-                        minorTickCount="1" nodeOrientation="RIGHT_TO_LEFT" showTickMarks="true" snapToTicks="true"
-                        value="800.0" GridPane.columnIndex="1"/>
-                <Button fx:id="runButton" mnemonicParsing="false" onAction="#run" text="Run" GridPane.columnIndex="2"/>
-                <Button mnemonicParsing="false" onAction="#doStep" text="Step" GridPane.columnIndex="3"/>
-            </children>
-            <VBox.margin>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-            </VBox.margin>
-        </GridPane>
-    </children>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubengees.convaysgameoflife.view.MainController">
+    <MenuBar>
+        <Menu mnemonicParsing="false" text="File">
+            <Menu mnemonicParsing="false" text="Import">
+                <MenuItem mnemonicParsing="false" text="Blinker" />
+                <MenuItem mnemonicParsing="false" text="Tummler" />
+                <MenuItem mnemonicParsing="false" text="Oktagon" />
+                <MenuItem mnemonicParsing="false" text="Gleiter" />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" text="Eigenes..." />
+            </Menu>
+         <MenuItem mnemonicParsing="false" text="Export..." />
+            <MenuItem mnemonicParsing="false" onAction="#reset" text="Zurücksetzen" />
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Schließen" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About" />
+        </Menu>
+    </MenuBar>
+    <GridPane VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="NEVER" />
+            <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+        </rowConstraints>
+        <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </VBox.margin>
+        <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" showTickLabels="true" snapToTicks="true">
+            <GridPane.margin>
+                <Insets bottom="20.0" />
+            </GridPane.margin>
+        </Slider>
+        <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Slider>
+        <Pane fx:id="tileContainer" prefHeight="400.0" prefWidth="400.0" GridPane.rowIndex="1" />
+    </GridPane>
+    <GridPane VBox.vgrow="NEVER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        </rowConstraints>
+        <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </VBox.margin>
+        <Button mnemonicParsing="false" onAction="#randomize" text="Zufällig" GridPane.halignment="LEFT" />
+        <Slider fx:id="speedSlider" blockIncrement="50.0" majorTickUnit="50.0" max="1000.0" min="50.0" minorTickCount="1" nodeOrientation="RIGHT_TO_LEFT" showTickMarks="true" snapToTicks="true" value="800.0" GridPane.columnIndex="1" />
+        <Button fx:id="runButton" mnemonicParsing="false" onAction="#run" text="Start" GridPane.columnIndex="2" />
+        <Button mnemonicParsing="false" onAction="#doStep" text="Schritt" GridPane.columnIndex="3" />
+    </GridPane>
 </VBox>
