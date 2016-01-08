@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import java.util.SplittableRandom;
 
 /**
- * TODO: Describe Class
+ * Controller, responsible for presenting the content and reacting to user input.
  *
  * @author Ruben Gees
  */
@@ -64,6 +64,11 @@ public class MainController implements Initializable {
         draw();
     }
 
+    /**
+     * Randomizes the alive state of the cells.
+     *
+     * @param actionEvent The event.
+     */
     public void randomize(ActionEvent actionEvent) {
         SplittableRandom random = new SplittableRandom();
         int rows = getRows();
@@ -81,6 +86,12 @@ public class MainController implements Initializable {
         draw();
     }
 
+    /**
+     * Starts or stops the automatic cycle calculation and drawing, according if it is currently running or not.
+     * The refresh rate is recalculated for each step from the speedSlider.
+     *
+     * @param actionEvent The event.
+     */
     public void run(ActionEvent actionEvent) {
         if (cycleThread == null) {
             cycleThread = new CycleThread();
@@ -95,22 +106,40 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Calculates and drawes a single step.
+     *
+     * @param actionEvent The event.
+     */
     public void doStep(ActionEvent actionEvent) {
         board.calculateCycle();
 
         draw();
     }
 
+    /**
+     * Resets the states of all cells to dead.
+     *
+     * @param actionEvent The event.
+     */
     public void reset(ActionEvent actionEvent) {
         board.setAliveMatrix(generateEmptyMatrix());
 
         draw();
     }
 
+    /**
+     * Closes the application.
+     *
+     * @param actionEvent The event.
+     */
     public void close(ActionEvent actionEvent) {
         System.exit(0);
     }
 
+    /**
+     * Drawes the current state of the board. Initializes the tiles and adds handler for mouse actions to them.
+     */
     private void draw() {
         int rows = getRows();
         int columns = getColumns();
@@ -124,9 +153,6 @@ public class MainController implements Initializable {
                 final int finalI = i;
                 final int finalJ = j;
 
-                rectangle.setArcHeight(15);
-                rectangle.setArcWidth(15);
-
                 rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK);
 
                 rectangle.setOnMouseClicked(event -> {
@@ -139,31 +165,59 @@ public class MainController implements Initializable {
                 rectangle.setOnMouseExited(event ->
                         rectangle.setFill(board.getCell(finalI, finalJ).isAlive() ? WHITE : BLACK));
 
+                //Position management
                 rectangle.xProperty().bind(tileContainer.widthProperty().divide(rows).multiply(i));
                 rectangle.yProperty().bind(tileContainer.heightProperty().divide(columns).multiply(j));
-                rectangle.heightProperty().bind(tileContainer.heightProperty().divide(columns));
-                rectangle.widthProperty().bind(tileContainer.widthProperty().divide(rows));
+
+                //Size management
+                rectangle.heightProperty().bind(tileContainer.heightProperty().divide(columns).subtract(3));
+                rectangle.widthProperty().bind(tileContainer.widthProperty().divide(rows).subtract(3));
+
                 tileContainer.getChildren().add(rectangle);
             }
         }
     }
 
+    /**
+     * Generates an empty matrix with the current size.
+     *
+     * @return THe matrix.
+     */
     private boolean[][] generateEmptyMatrix() {
         return new boolean[getRows()][getColumns()];
     }
 
+    /**
+     * Returns the current columns as set by the user thorugh the sliderSizeY.
+     *
+     * @return The columns.
+     */
     private int getColumns() {
         return (int) sliderSizeY.valueProperty().get();
     }
 
+    /**
+     * Returns the current rows as set by the user through the sliderSizeY.
+     *
+     * @return The rows.
+     */
     private int getRows() {
         return (int) sliderSizeX.valueProperty().get();
     }
 
+    /**
+     * Returns the current refresh interval for the automatic drawing as set by the user through the speedSlider.
+     *
+     * @return The interval.
+     */
     private long getInterval() {
         return (long) speedSlider.getValue();
     }
 
+    /**
+     * A Thread responsible for the refreshing and drawing of the board. This is potentially running for ever
+     * unless the <code>cancel()</code> method is called.
+     */
     private class CycleThread extends Thread {
         private volatile boolean cancelled = false;
 
@@ -183,12 +237,12 @@ public class MainController implements Initializable {
             }
         }
 
+        /**
+         * Signalizes this Thread to cancel. It is possible that one cycle is calculated and drawen before
+         * it is canceled.
+         */
         public void cancel() {
             cancelled = true;
-        }
-
-        public boolean isCancelled() {
-            return cancelled;
         }
     }
 }

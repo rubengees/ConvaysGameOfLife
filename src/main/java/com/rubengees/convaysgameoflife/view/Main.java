@@ -33,7 +33,7 @@ public class Main extends Application {
 
             primaryStage.setScene(scene);
 
-            //Prevents weird effects when making the window to small
+            //Prevents weird effects when making the window to small.
             primaryStage.setMinWidth(500);
             primaryStage.setMinHeight(600);
 
@@ -49,7 +49,7 @@ public class Main extends Application {
     public void stop() throws Exception {
         super.stop();
 
-        //Cancels eventually running Threads
+        //Cancels eventually running Threads.
         System.exit(0);
     }
 }
