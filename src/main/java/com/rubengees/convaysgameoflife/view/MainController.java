@@ -189,6 +189,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Starts an import procedure showing a FileChooser and drawing the new matrix.
+     */
     public void doImport() {
         File file = generateFileChooser().showOpenDialog(root.getScene().getWindow());
 
@@ -203,6 +206,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Starts an export procedure showing a FileChooser and saving the current board to the specified location.
+     */
     public void doExport() {
         File file = generateFileChooser().showSaveDialog(root.getScene().getWindow());
 
@@ -215,22 +221,39 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Imports the blinker json.
+     */
     public void doImportBlinker() {
         doImportFromResource(BLINKER);
     }
 
+    /**
+     * Imports the pulsar json.
+     */
     public void doImportPulsar() {
         doImportFromResource(PULSAR);
     }
 
+    /**
+     * Imports the ocatagon json.
+     */
     public void doImportOctagon() {
         doImportFromResource(OCTAGON);
     }
 
+    /**
+     * Imports the glider json.
+     */
     public void doImportGlider() {
         doImportFromResource(GLIDER);
     }
 
+    /**
+     * Imports one of the predefined shapes.
+     *
+     * @param resource The location of the json.
+     */
     private void doImportFromResource(@NotNull String resource) {
 
         try {
@@ -276,6 +299,11 @@ public class MainController implements Initializable {
         return (long) speedSlider.getValue();
     }
 
+    /**
+     * Redraws the board with a matrix from the import.
+     *
+     * @param aliveMatrix The new matrix.
+     */
     private void drawFromImport(@NotNull boolean[][] aliveMatrix) {
         sizeXSlider.setValue(aliveMatrix.length);
         sizeYSlider.setValue(aliveMatrix[0].length);
@@ -285,6 +313,11 @@ public class MainController implements Initializable {
         draw();
     }
 
+    /**
+     * Generates a FileChooser for import and export.
+     *
+     * @return The FileChooser.
+     */
     private FileChooser generateFileChooser() {
         FileChooser result = new FileChooser();
 
@@ -295,10 +328,16 @@ public class MainController implements Initializable {
         return result;
     }
 
+    /**
+     * Shows an Alert with a error message for an IO error.
+     */
     private void showIOError() {
         new Alert(Alert.AlertType.ERROR, ERROR_IO, ButtonType.CLOSE).showAndWait();
     }
 
+    /**
+     * Shows an Alert with a error message for a json error.
+     */
     private void showJsonError() {
         new Alert(Alert.AlertType.ERROR, ERROR_JSON, ButtonType.CLOSE).showAndWait();
     }
