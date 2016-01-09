@@ -64,6 +64,11 @@ public class Board {
         return Utils.cloneMatrix(cells);
     }
 
+    /**
+     * Returns the internal representation of the board as a simple boolean matrix.
+     *
+     * @return The matrix.
+     */
     @NotNull
     public synchronized boolean[][] toAliveMatrix() {
         boolean[][] result = new boolean[cells.length][cells[0].length];
@@ -77,6 +82,9 @@ public class Board {
         return result;
     }
 
+    /**
+     * Calculates one cycle and updates the internal representation according to the rules defined.
+     */
     public synchronized void calculateCycle() {
         int rows = cells.length;
         int columns = cells[0].length;
