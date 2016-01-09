@@ -3,9 +3,19 @@ version '1.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'gradle-one-jar'
 
 sourceCompatibility = 1.8
 mainClassName = 'com.rubengees.convaysgameoflife.view.Main'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -16,10 +26,21 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-junit:4.0.+"
 }
 
 jar {
     manifest {
         attributes 'Main-Class': mainClassName
     }
+}
+
+task fatJar(type: OneJar) {
+    mainClass = mainClassName
+    archiveName = 'ConvaysGameOfLife.jar'
+}
+
+artifacts {
+    archives fatJar
 }

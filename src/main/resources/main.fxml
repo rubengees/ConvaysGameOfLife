@@ -32,13 +32,13 @@
         <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </VBox.margin>
-        <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
+        <Slider fx:id="sizeXSlider" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
                 showTickLabels="true" snapToTicks="true" value="3.0">
             <GridPane.margin>
                 <Insets bottom="20.0" />
             </GridPane.margin>
         </Slider>
-        <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
+        <Slider fx:id="sizeYSlider" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
                 orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0" GridPane.columnIndex="1"
                 GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
             <GridPane.margin>

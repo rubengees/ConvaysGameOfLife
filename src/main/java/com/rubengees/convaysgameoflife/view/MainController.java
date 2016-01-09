@@ -54,9 +54,9 @@ public class MainController implements Initializable {
     Pane tileContainer;
 
     @FXML
-    Slider sliderSizeX;
+    Slider sizeXSlider;
     @FXML
-    Slider sliderSizeY;
+    Slider sizeYSlider;
     @FXML
     Slider speedSlider;
 
@@ -71,13 +71,13 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         board = new Board(generateEmptyMatrix());
 
-        sliderSizeX.valueProperty().addListener((observable, oldValue, newValue) -> {
+        sizeXSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             board.setAliveMatrix(generateEmptyMatrix());
 
             draw();
         });
 
-        sliderSizeY.valueProperty().addListener((observable, oldValue, newValue) -> {
+        sizeYSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             board.setAliveMatrix(generateEmptyMatrix());
 
             draw();
@@ -250,21 +250,21 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Returns the current columns as set by the user through the sliderSizeY.
+     * Returns the current columns as set by the user through the sizeYSlider.
      *
      * @return The columns.
      */
     private int getColumns() {
-        return (int) sliderSizeY.valueProperty().get();
+        return (int) sizeYSlider.valueProperty().get();
     }
 
     /**
-     * Returns the current rows as set by the user through the sliderSizeY.
+     * Returns the current rows as set by the user through the sizeYSlider.
      *
      * @return The rows.
      */
     private int getRows() {
-        return (int) sliderSizeX.valueProperty().get();
+        return (int) sizeXSlider.valueProperty().get();
     }
 
     /**
@@ -277,8 +277,8 @@ public class MainController implements Initializable {
     }
 
     private void drawFromImport(@NotNull boolean[][] aliveMatrix) {
-        sliderSizeX.setValue(aliveMatrix.length);
-        sliderSizeY.setValue(aliveMatrix[0].length);
+        sizeXSlider.setValue(aliveMatrix.length);
+        sizeYSlider.setValue(aliveMatrix[0].length);
 
         board.setAliveMatrix(aliveMatrix);
 
