@@ -10,9 +10,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * TODO: Describe Class
@@ -20,6 +22,14 @@ import org.testfx.framework.junit.ApplicationTest;
  * @author Ruben Gees
  */
 public class MainControllerTest extends ApplicationTest {
+
+    private Pane tileContainer;
+    private Button randomButton;
+    private Button runButton;
+    private Button stepButton;
+    private Slider sizeXSlider;
+    private Slider sizeYSlider;
+    private Slider speedSlider;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,67 +39,77 @@ public class MainControllerTest extends ApplicationTest {
         stage.show();
     }
 
+    @Before
+    public void setUp() throws Exception {
+        tileContainer = lookup("#tileContainer").queryFirst();
+        randomButton = lookup("#randomButton").queryFirst();
+        runButton = lookup("#runButton").queryFirst();
+        stepButton = lookup("#stepButton").queryFirst();
+        sizeXSlider = lookup("#sizeXSlider").queryFirst();
+        sizeYSlider = lookup("#sizeYSlider").queryFirst();
+        speedSlider = lookup("#speedSlider").queryFirst();
+    }
+
     @Test
     public void testInitState() throws Exception {
-
+        assertEquals(3 * 3, tileContainer.getChildren().size());
+        assertEquals("Zufällig", randomButton.getText());
+        assertEquals("Start", runButton.getText());
+        assertEquals("Schritt", stepButton.getText());
+        assertEquals(3, sizeXSlider.getValue(), 0);
+        assertEquals(3, sizeYSlider.getValue(), 0);
+        assertEquals(800, speedSlider.getValue(), 0);
     }
 
     @Test
     public void testStartToStop() throws Exception {
-        clickOn("#runButton");
+        clickOn(runButton);
 
-        Assert.assertEquals("Stopp", ((Button) lookup("#runButton").queryFirst()).getText());
+        assertEquals("Stopp", runButton.getText());
     }
 
     @Test
     public void testStopToStart() throws Exception {
-        clickOn("#runButton");
-        clickOn("#runButton");
+        clickOn(runButton);
+        clickOn(runButton);
 
-        Assert.assertEquals("Start", ((Button) lookup("#runButton").queryFirst()).getText());
+        assertEquals("Start", runButton.getText());
     }
 
     @Test
     public void testRectangleChangeColorOnClick() throws Exception {
-        Rectangle first = (Rectangle) ((Pane) lookup("#tileContainer").queryFirst()).getChildren().get(0);
+        Rectangle first = (Rectangle) tileContainer.getChildren().get(0);
 
         clickOn(first);
 
-        Assert.assertEquals(Paint.valueOf("white"), first.getFill());
+        assertEquals(Paint.valueOf("white"), first.getFill());
     }
 
     @Test
     public void testBoardResizeX() throws Exception {
-        Slider slider = lookup("#sizeXSlider").queryFirst();
-
         Platform.runLater(() -> {
-            slider.setValue(20);
+            sizeXSlider.setValue(20);
 
-            Assert.assertEquals(3 * 20, ((Pane) lookup("#tileContainer").queryFirst()).getChildren().size());
+            assertEquals(3 * 20, tileContainer.getChildren().size());
         });
     }
 
     @Test
     public void testBoardResizeY() throws Exception {
-        Slider slider = lookup("#sizeYSlider").queryFirst();
-
         Platform.runLater(() -> {
-            slider.setValue(20);
+            sizeYSlider.setValue(20);
 
-            Assert.assertEquals(3 * 20, ((Pane) lookup("#tileContainer").queryFirst()).getChildren().size());
+            assertEquals(3 * 20, tileContainer.getChildren().size());
         });
     }
 
     @Test
     public void testBoardResizeXY() throws Exception {
-        Slider sliderX = lookup("#sizeXSlider").queryFirst();
-        Slider sliderY = lookup("#sizeYSlider").queryFirst();
-
         Platform.runLater(() -> {
-            sliderX.setValue(20);
-            sliderY.setValue(20);
+            sizeXSlider.setValue(20);
+            sizeYSlider.setValue(20);
 
-            Assert.assertEquals(20 * 20, ((Pane) lookup("#tileContainer").queryFirst()).getChildren().size());
+            assertEquals(20 * 20, tileContainer.getChildren().size());
         });
     }
 
