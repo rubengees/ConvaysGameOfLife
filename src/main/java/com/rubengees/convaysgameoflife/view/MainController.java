@@ -36,6 +36,16 @@ public class MainController implements Initializable {
 
     private static final String BUTTON_STOP = "Stopp";
     private static final String BUTTON_RUN = "Start";
+    private static final String BLINKER = "blinker.json";
+    private static final String PULSAR = "pulsar.json";
+    private static final String OCTAGON = "octagon.json";
+    private static final String GLIDER = "glider.json";
+    private static final String FILE_CHOOSER_TITLE = "Speicherort wählen";
+    private static final String FILE_CHOOSER_DEFAULT_FILE_NAME = "export.json";
+    private static final String FILE_CHOOSER_FILTER_TITLE = "Json Dateien";
+    private static final String FILE_CHOOSER_FILTER = "*.json";
+    private static final String ERROR_IO = "Konnte nicht auf Datei zugreifen.";
+    private static final String ERROR_JSON = "Die Datei ist beschädigt.";
 
     @FXML
     Parent root;
@@ -206,19 +216,19 @@ public class MainController implements Initializable {
     }
 
     public void doImportBlinker() {
-        doImportFromResource("blinker.json");
+        doImportFromResource(BLINKER);
     }
 
     public void doImportPulsar() {
-        doImportFromResource("pulsar.json");
+        doImportFromResource(PULSAR);
     }
 
     public void doImportOctagon() {
-        doImportFromResource("octagon.json");
+        doImportFromResource(OCTAGON);
     }
 
     public void doImportGlider() {
-        doImportFromResource("glider.json");
+        doImportFromResource(GLIDER);
     }
 
     private void doImportFromResource(@NotNull String resource) {
@@ -278,19 +288,19 @@ public class MainController implements Initializable {
     private FileChooser generateFileChooser() {
         FileChooser result = new FileChooser();
 
-        result.setTitle("Speicherort wählen");
-        result.setInitialFileName("export.json");
-        result.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json Dateien", "*.json"));
+        result.setTitle(FILE_CHOOSER_TITLE);
+        result.setInitialFileName(FILE_CHOOSER_DEFAULT_FILE_NAME);
+        result.getExtensionFilters().add(new FileChooser.ExtensionFilter(FILE_CHOOSER_FILTER_TITLE, FILE_CHOOSER_FILTER));
 
         return result;
     }
 
     private void showIOError() {
-        new Alert(Alert.AlertType.ERROR, "Konnte nicht auf Datei zugreifen.", ButtonType.CLOSE).showAndWait();
+        new Alert(Alert.AlertType.ERROR, ERROR_IO, ButtonType.CLOSE).showAndWait();
     }
 
     private void showJsonError() {
-        new Alert(Alert.AlertType.ERROR, "Die Datei ist beschädigt.", ButtonType.CLOSE).showAndWait();
+        new Alert(Alert.AlertType.ERROR, ERROR_JSON, ButtonType.CLOSE).showAndWait();
     }
 
     /**

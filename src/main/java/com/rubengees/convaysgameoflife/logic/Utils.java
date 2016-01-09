@@ -38,7 +38,7 @@ public class Utils {
      * Returns the URL for the resource with the given name.
      *
      * @param clazz The class to load the resource from.
-     * @param location  The name of the resource.
+     * @param location  The location of the resource.
      * @return The URL of the resource. May be <code>null</code> if the resource is not found.
      */
     @Nullable

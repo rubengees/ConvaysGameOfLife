@@ -20,8 +20,10 @@ import java.net.URL;
  */
 public class Main extends Application {
 
-    public static final String ERROR_RESOURCE_NOT_FOUND = "A needed resource was not found.";
+    private static final String ERROR_RESOURCE_NOT_FOUND = "A needed resource was not found.";
     private static final String LAYOUT = "main.fxml";
+    private static final String ICON = "icon.png";
+    private static final String TITLE = "Conway's Game of Life";
 
     public static void main(String[] args) {
         launch(args);
@@ -34,7 +36,7 @@ public class Main extends Application {
         if (resource != null) {
             Parent root = FXMLLoader.load(resource);
             Scene scene = new Scene(root);
-            URL icon = Utils.getResource(getClass(), "icon.png");
+            URL icon = Utils.getResource(getClass(), ICON);
 
             primaryStage.setScene(scene);
 
@@ -42,7 +44,7 @@ public class Main extends Application {
             primaryStage.setMinWidth(500);
             primaryStage.setMinHeight(600);
 
-            primaryStage.setTitle("Conway's Game of Life");
+            primaryStage.setTitle(TITLE);
 
             if (icon != null) {
                 primaryStage.getIcons().add(new Image(icon.openStream()));
