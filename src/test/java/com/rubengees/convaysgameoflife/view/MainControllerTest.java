@@ -17,7 +17,7 @@ import org.testfx.framework.junit.ApplicationTest;
 import static org.junit.Assert.assertEquals;
 
 /**
- * TODO: Describe Class
+ * Tests for the {@link MainController}.
  *
  * @author Ruben Gees
  */

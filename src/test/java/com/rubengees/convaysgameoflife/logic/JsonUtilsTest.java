@@ -12,7 +12,7 @@ import java.io.FileWriter;
 import java.util.Arrays;
 
 /**
- * TODO: Describe Class
+ * Tests for the {@link JsonUtils}.
  *
  * @author Ruben Gees
  */

@@ -12,6 +12,8 @@
                 <MenuItem mnemonicParsing="false" onAction="#doImportPulsar" text="Pulsar"/>
                 <MenuItem mnemonicParsing="false" onAction="#doImportOctagon" text="Oktagon"/>
                 <MenuItem mnemonicParsing="false" onAction="#doImportGlider" text="Gleiter"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportSailor" text="Segler"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportMandala" text="Mandala"/>
                 <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem mnemonicParsing="false" onAction="#doImport" text="Eigenes..."/>
             </Menu>

@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * TODO: Describe Class
+ * Tests for the {@link Utils}.
  *
  * @author Ruben Gees
  */

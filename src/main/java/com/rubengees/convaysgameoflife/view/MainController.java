@@ -36,14 +36,19 @@ public class MainController implements Initializable {
 
     private static final String BUTTON_STOP = "Stopp";
     private static final String BUTTON_RUN = "Start";
+
     private static final String BLINKER = "blinker.json";
     private static final String PULSAR = "pulsar.json";
     private static final String OCTAGON = "octagon.json";
     private static final String GLIDER = "glider.json";
+    private static final String SAILOR = "sailor.json";
+    private static final String MANDALA = "mandala.json";
+
     private static final String FILE_CHOOSER_TITLE = "Speicherort wählen";
     private static final String FILE_CHOOSER_DEFAULT_FILE_NAME = "export.json";
     private static final String FILE_CHOOSER_FILTER_TITLE = "Json Dateien";
     private static final String FILE_CHOOSER_FILTER = "*.json";
+
     private static final String ERROR_IO = "Konnte nicht auf Datei zugreifen.";
     private static final String ERROR_JSON = "Die Datei ist beschädigt.";
 
@@ -247,6 +252,20 @@ public class MainController implements Initializable {
      */
     public void doImportGlider() {
         doImportFromResource(GLIDER);
+    }
+
+    /**
+     * Imports the sailor json.
+     */
+    public void doImportSailor() {
+        doImportFromResource(SAILOR);
+    }
+
+    /**
+     * Imports the mandala json.
+     */
+    public void doImportMandala() {
+        doImportFromResource(MANDALA);
     }
 
     /**
