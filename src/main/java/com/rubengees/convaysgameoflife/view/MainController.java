@@ -1,16 +1,24 @@
 package com.rubengees.convaysgameoflife.view;
 
+import com.google.gson.JsonSyntaxException;
 import com.rubengees.convaysgameoflife.logic.Board;
+import com.rubengees.convaysgameoflife.logic.JsonUtils;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.SplittableRandom;
@@ -25,17 +33,23 @@ public class MainController implements Initializable {
     private static final Paint BLACK = Paint.valueOf("black");
     private static final Paint WHITE = Paint.valueOf("white");
     private static final Paint GREY = Paint.valueOf("grey");
+
     private static final String BUTTON_STOP = "Stopp";
     private static final String BUTTON_RUN = "Start";
 
     @FXML
+    Parent root;
+
+    @FXML
     Pane tileContainer;
+
     @FXML
     Slider sliderSizeX;
     @FXML
     Slider sliderSizeY;
     @FXML
     Slider speedSlider;
+
     @FXML
     Button runButton;
 
@@ -59,19 +73,13 @@ public class MainController implements Initializable {
             draw();
         });
 
-        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-
-        });
-
         draw();
     }
 
     /**
      * Randomizes the alive state of the cells.
-     *
-     * @param actionEvent The event.
      */
-    public void randomize(ActionEvent actionEvent) {
+    public void randomize() {
         SplittableRandom random = new SplittableRandom();
         int rows = getRows();
         int columns = getColumns();
@@ -91,10 +99,8 @@ public class MainController implements Initializable {
     /**
      * Starts or stops the automatic cycle calculation and drawing, according if it is currently running or not.
      * The refresh rate is recalculated for each step from the speedSlider.
-     *
-     * @param actionEvent The event.
      */
-    public void run(ActionEvent actionEvent) {
+    public void run() {
         if (cycleThread == null) {
             cycleThread = new CycleThread();
             cycleThread.start();
@@ -109,11 +115,9 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Calculates and drawes a single step.
-     *
-     * @param actionEvent The event.
+     * Calculates and draws a single step.
      */
-    public void doStep(ActionEvent actionEvent) {
+    public void doStep() {
         board.calculateCycle();
 
         draw();
@@ -121,10 +125,8 @@ public class MainController implements Initializable {
 
     /**
      * Resets the states of all cells to dead.
-     *
-     * @param actionEvent The event.
      */
-    public void reset(ActionEvent actionEvent) {
+    public void reset() {
         board.setAliveMatrix(generateEmptyMatrix());
 
         draw();
@@ -132,15 +134,13 @@ public class MainController implements Initializable {
 
     /**
      * Closes the application.
-     *
-     * @param actionEvent The event.
      */
-    public void close(ActionEvent actionEvent) {
+    public void close() {
         System.exit(0);
     }
 
     /**
-     * Drawes the current state of the board. Initializes the tiles and adds handler for mouse actions to them.
+     * Draws the current state of the board. Initializes the tiles and adds handler for mouse actions to them.
      */
     private void draw() {
         int rows = getRows();
@@ -150,7 +150,6 @@ public class MainController implements Initializable {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-
                 Rectangle rectangle = new Rectangle();
                 final int finalI = i;
                 final int finalJ = j;
@@ -180,6 +179,57 @@ public class MainController implements Initializable {
         }
     }
 
+    public void doImport() {
+        File file = generateFileChooser().showOpenDialog(root.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                drawFromImport(JsonUtils.deserialize(file));
+            } catch (IOException e) {
+                showIOError();
+            } catch (JsonSyntaxException e) {
+                showJsonError();
+            }
+        }
+    }
+
+    public void doExport() {
+        File file = generateFileChooser().showSaveDialog(root.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                JsonUtils.serialize(board.toAliveMatrix(), file);
+            } catch (IOException e) {
+                showIOError();
+            }
+        }
+    }
+
+    public void doImportBlinker() {
+        doImportFromResource("blinker.json");
+    }
+
+    public void doImportPulsar() {
+        doImportFromResource("pulsar.json");
+    }
+
+    public void doImportOctagon() {
+        doImportFromResource("octagon.json");
+    }
+
+    public void doImportGlider() {
+        doImportFromResource("glider.json");
+    }
+
+    private void doImportFromResource(@NotNull String resource) {
+
+        try {
+            drawFromImport(JsonUtils.deserialize(getClass(), resource));
+        } catch (IOException e) {
+            showIOError();
+        }
+    }
+
     /**
      * Generates an empty matrix with the current size.
      *
@@ -190,7 +240,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Returns the current columns as set by the user thorugh the sliderSizeY.
+     * Returns the current columns as set by the user through the sliderSizeY.
      *
      * @return The columns.
      */
@@ -214,6 +264,33 @@ public class MainController implements Initializable {
      */
     private long getInterval() {
         return (long) speedSlider.getValue();
+    }
+
+    private void drawFromImport(@NotNull boolean[][] aliveMatrix) {
+        sliderSizeX.setValue(aliveMatrix.length);
+        sliderSizeY.setValue(aliveMatrix[0].length);
+
+        board.setAliveMatrix(aliveMatrix);
+
+        draw();
+    }
+
+    private FileChooser generateFileChooser() {
+        FileChooser result = new FileChooser();
+
+        result.setTitle("Speicherort wählen");
+        result.setInitialFileName("export.json");
+        result.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json Dateien", "*.json"));
+
+        return result;
+    }
+
+    private void showIOError() {
+        new Alert(Alert.AlertType.ERROR, "Konnte nicht auf Datei zugreifen.", ButtonType.CLOSE).showAndWait();
+    }
+
+    private void showJsonError() {
+        new Alert(Alert.AlertType.ERROR, "Die Datei ist beschädigt.", ButtonType.CLOSE).showAndWait();
     }
 
     /**
@@ -240,7 +317,7 @@ public class MainController implements Initializable {
         }
 
         /**
-         * Signalizes this Thread to cancel. It is possible that one cycle is calculated and drawen before
+         * Signalizes this Thread to cancel. It is possible that one cycle is calculated and drawn before
          * it is canceled.
          */
         public void cancel() {

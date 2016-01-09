@@ -38,15 +38,15 @@ public class Utils {
      * Returns the URL for the resource with the given name.
      *
      * @param clazz The class to load the resource from.
-     * @param name  The name of the resource.
+     * @param location  The name of the resource.
      * @return The URL of the resource. May be <code>null</code> if the resource is not found.
      */
     @Nullable
-    public static URL getResource(@NotNull Class<?> clazz, @NotNull String name) {
+    public static URL getResource(@NotNull Class<?> clazz, @NotNull String location) {
         Objects.requireNonNull(clazz);
-        Objects.requireNonNull(name);
+        Objects.requireNonNull(location);
 
-        return clazz.getClassLoader().getResource(name);
+        return clazz.getClassLoader().getResource(location);
     }
 
 }

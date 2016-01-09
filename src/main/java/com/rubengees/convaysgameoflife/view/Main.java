@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,12 +34,19 @@ public class Main extends Application {
         if (resource != null) {
             Parent root = FXMLLoader.load(resource);
             Scene scene = new Scene(root);
+            URL icon = Utils.getResource(getClass(), "icon.png");
 
             primaryStage.setScene(scene);
 
             //Prevents weird effects when making the window to small.
             primaryStage.setMinWidth(500);
             primaryStage.setMinHeight(600);
+
+            primaryStage.setTitle("Conway's Game of Life");
+
+            if (icon != null) {
+                primaryStage.getIcons().add(new Image(icon.openStream()));
+            }
 
             primaryStage.show();
         } else {

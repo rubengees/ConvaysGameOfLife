@@ -64,6 +64,19 @@ public class Board {
         return Utils.cloneMatrix(cells);
     }
 
+    @NotNull
+    public synchronized boolean[][] toAliveMatrix() {
+        boolean[][] result = new boolean[cells.length][cells[0].length];
+
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                result[i][j] = cells[i][j].isAlive();
+            }
+        }
+
+        return result;
+    }
+
     public synchronized void calculateCycle() {
         int rows = cells.length;
         int columns = cells[0].length;

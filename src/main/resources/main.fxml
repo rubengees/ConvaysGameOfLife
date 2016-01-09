@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rubengees.convaysgameoflife.view.MainController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/null" fx:controller="com.rubengees.convaysgameoflife.view.MainController">
     <MenuBar>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="Datei">
             <Menu mnemonicParsing="false" text="Import">
-                <MenuItem mnemonicParsing="false" text="Blinker" />
-                <MenuItem mnemonicParsing="false" text="Tummler" />
-                <MenuItem mnemonicParsing="false" text="Oktagon" />
-                <MenuItem mnemonicParsing="false" text="Gleiter" />
+                <MenuItem mnemonicParsing="false" onAction="#doImportBlinker" text="Blinker"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportPulsar" text="Pulsar"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportOctagon" text="Oktagon"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportGlider" text="Gleiter"/>
                 <SeparatorMenuItem mnemonicParsing="false" />
-                <MenuItem mnemonicParsing="false" text="Eigenes..." />
+                <MenuItem mnemonicParsing="false" onAction="#doImport" text="Eigenes..."/>
             </Menu>
-         <MenuItem mnemonicParsing="false" text="Export..." />
+            <MenuItem mnemonicParsing="false" onAction="#doExport" text="Export..."/>
             <MenuItem mnemonicParsing="false" onAction="#reset" text="Zurücksetzen" />
             <MenuItem mnemonicParsing="false" onAction="#close" text="Schließen" />
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
         </Menu>
     </MenuBar>
     <GridPane VBox.vgrow="ALWAYS">
@@ -37,12 +32,15 @@
         <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </VBox.margin>
-        <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" showTickLabels="true" snapToTicks="true">
+        <Slider fx:id="sliderSizeX" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
+                showTickLabels="true" snapToTicks="true" value="3.0">
             <GridPane.margin>
                 <Insets bottom="20.0" />
             </GridPane.margin>
         </Slider>
-        <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+        <Slider fx:id="sliderSizeY" blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="3.0" minorTickCount="0"
+                orientation="VERTICAL" showTickLabels="true" snapToTicks="true" value="3.0" GridPane.columnIndex="1"
+                GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
             <GridPane.margin>
                 <Insets left="20.0" />
             </GridPane.margin>
