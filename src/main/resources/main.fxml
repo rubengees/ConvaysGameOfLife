@@ -6,20 +6,20 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity"
       xmlns="http://javafx.com/javafx/null" fx:controller="com.rubengees.convaysgameoflife.view.MainController">
     <MenuBar>
-        <Menu mnemonicParsing="false" text="Datei">
+        <Menu mnemonicParsing="false" text="File">
             <Menu mnemonicParsing="false" text="Import">
                 <MenuItem mnemonicParsing="false" onAction="#doImportBlinker" text="Blinker"/>
                 <MenuItem mnemonicParsing="false" onAction="#doImportPulsar" text="Pulsar"/>
-                <MenuItem mnemonicParsing="false" onAction="#doImportOctagon" text="Oktagon"/>
-                <MenuItem mnemonicParsing="false" onAction="#doImportGlider" text="Gleiter"/>
-                <MenuItem mnemonicParsing="false" onAction="#doImportSailor" text="Segler"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportOctagon" text="Octagon"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportGlider" text="Glider"/>
+                <MenuItem mnemonicParsing="false" onAction="#doImportSailor" text="Sailor"/>
                 <MenuItem mnemonicParsing="false" onAction="#doImportMandala" text="Mandala"/>
                 <SeparatorMenuItem mnemonicParsing="false" />
-                <MenuItem mnemonicParsing="false" onAction="#doImport" text="Eigenes..."/>
+                <MenuItem mnemonicParsing="false" onAction="#doImport" text="Own..."/>
             </Menu>
             <MenuItem mnemonicParsing="false" onAction="#doExport" text="Export..."/>
-            <MenuItem mnemonicParsing="false" onAction="#reset" text="Zurücksetzen" />
-            <MenuItem mnemonicParsing="false" onAction="#close" text="Schließen" />
+            <MenuItem mnemonicParsing="false" onAction="#reset" text="Reset"/>
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
         </Menu>
     </MenuBar>
     <GridPane VBox.vgrow="ALWAYS">
@@ -62,10 +62,10 @@
         <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </VBox.margin>
-        <Button fx:id="randomButton" mnemonicParsing="false" onAction="#randomize" text="Zufällig"
+        <Button fx:id="randomButton" mnemonicParsing="false" onAction="#randomize" text="Random"
                 GridPane.halignment="LEFT"/>
         <Slider fx:id="speedSlider" blockIncrement="50.0" majorTickUnit="50.0" max="1000.0" min="50.0" minorTickCount="1" nodeOrientation="RIGHT_TO_LEFT" showTickMarks="true" snapToTicks="true" value="800.0" GridPane.columnIndex="1" />
         <Button fx:id="runButton" mnemonicParsing="false" onAction="#run" text="Start" GridPane.columnIndex="2" />
-        <Button fx:id="stepButton" mnemonicParsing="false" onAction="#doStep" text="Schritt" GridPane.columnIndex="3"/>
+        <Button fx:id="stepButton" mnemonicParsing="false" onAction="#doStep" text="Set" GridPane.columnIndex="3"/>
     </GridPane>
 </VBox>

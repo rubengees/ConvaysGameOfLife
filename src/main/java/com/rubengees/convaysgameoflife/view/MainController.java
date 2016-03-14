@@ -44,13 +44,13 @@ public class MainController implements Initializable {
     private static final String SAILOR = "sailor.json";
     private static final String MANDALA = "mandala.json";
 
-    private static final String FILE_CHOOSER_TITLE = "Speicherort wählen";
+    private static final String FILE_CHOOSER_TITLE = "Choose save location";
     private static final String FILE_CHOOSER_DEFAULT_FILE_NAME = "export.json";
-    private static final String FILE_CHOOSER_FILTER_TITLE = "Json Dateien";
+    private static final String FILE_CHOOSER_FILTER_TITLE = "Json files";
     private static final String FILE_CHOOSER_FILTER = "*.json";
 
-    private static final String ERROR_IO = "Konnte nicht auf Datei zugreifen.";
-    private static final String ERROR_JSON = "Die Datei ist beschädigt.";
+    private static final String ERROR_IO = "Could not open file.";
+    private static final String ERROR_JSON = "The file is damaged.";
 
     @FXML
     Parent root;

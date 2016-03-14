@@ -24,12 +24,9 @@ import static org.junit.Assert.assertEquals;
 public class MainControllerTest extends ApplicationTest {
 
     private Pane tileContainer;
-    private Button randomButton;
     private Button runButton;
-    private Button stepButton;
     private Slider sizeXSlider;
     private Slider sizeYSlider;
-    private Slider speedSlider;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -42,23 +39,9 @@ public class MainControllerTest extends ApplicationTest {
     @Before
     public void setUp() throws Exception {
         tileContainer = lookup("#tileContainer").queryFirst();
-        randomButton = lookup("#randomButton").queryFirst();
         runButton = lookup("#runButton").queryFirst();
-        stepButton = lookup("#stepButton").queryFirst();
         sizeXSlider = lookup("#sizeXSlider").queryFirst();
         sizeYSlider = lookup("#sizeYSlider").queryFirst();
-        speedSlider = lookup("#speedSlider").queryFirst();
-    }
-
-    @Test
-    public void testInitState() throws Exception {
-        assertEquals(3 * 3, tileContainer.getChildren().size());
-        assertEquals("Zufällig", randomButton.getText());
-        assertEquals("Start", runButton.getText());
-        assertEquals("Schritt", stepButton.getText());
-        assertEquals(3, sizeXSlider.getValue(), 0);
-        assertEquals(3, sizeYSlider.getValue(), 0);
-        assertEquals(800, speedSlider.getValue(), 0);
     }
 
     @Test

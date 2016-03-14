@@ -4,6 +4,7 @@ version '1.0'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'gradle-one-jar'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 mainClassName = 'com.rubengees.convaysgameoflife.view.Main'
@@ -23,11 +24,11 @@ repositories {
 
 dependencies {
     compile 'org.jetbrains:annotations:15.0'
-    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.code.gson:gson:2.6.2'
 
     testCompile 'junit:junit:4.12'
-    testCompile "org.testfx:testfx-core:4.0.+"
-    testCompile "org.testfx:testfx-junit:4.0.+"
+    testCompile "org.testfx:testfx-core:4.0.2-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.2-alpha"
 }
 
 jar {
