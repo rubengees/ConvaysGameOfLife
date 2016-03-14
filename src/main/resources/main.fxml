@@ -66,6 +66,6 @@
                 GridPane.halignment="LEFT"/>
         <Slider fx:id="speedSlider" blockIncrement="50.0" majorTickUnit="50.0" max="1000.0" min="50.0" minorTickCount="1" nodeOrientation="RIGHT_TO_LEFT" showTickMarks="true" snapToTicks="true" value="800.0" GridPane.columnIndex="1" />
         <Button fx:id="runButton" mnemonicParsing="false" onAction="#run" text="Start" GridPane.columnIndex="2" />
-        <Button fx:id="stepButton" mnemonicParsing="false" onAction="#doStep" text="Set" GridPane.columnIndex="3"/>
+        <Button fx:id="stepButton" mnemonicParsing="false" onAction="#doStep" text="Step" GridPane.columnIndex="3"/>
     </GridPane>
 </VBox>
